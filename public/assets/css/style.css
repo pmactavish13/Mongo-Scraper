@@ -45,6 +45,11 @@ nav {
     background-color:whitesmoke;
 }
 
+#scrape {
+    cursor: pointer;
+    border: none
+}
+
 @media (max-width: 860px) {
     nav ul     { display: none; }
     nav select { display: inline-block; }
