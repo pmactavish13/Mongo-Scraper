@@ -2,42 +2,54 @@
 var express = require("express");
 var exphbs = require("express-handlebars");
 var bodyParser = require("body-parser");
+var path = require('path');
 var logger = require("morgan");
 var mongoose = require("mongoose");
-var path = require("path");
-var app = express();
+var axios = require('axios');
 
 // Scraping tools
 var cheerio = require('cheerio');
 var request = require('request');
 
-// Require all models
+var app = express();
+
+// // Require all models
 var db = require("./models");
 
-// Set mongoose to leverage built in JavaScript ES6 Promises
-mongoose.Promise = Promise;
-
-// Connect to the Mongo DB
-// mongoose.connect(MONGODB_URI);
-
+// define Port
 var PORT = process.env.PORT || 3000;
+
+// handlebars route to static files - css, img
+app.use(express.static('public'));
 
 // Use morgan and body parser with app
 app.use(logger("dev"));
 app.use(bodyParser.urlencoded({extended: false}));
 
 // Set Handlebars as the default templating engine.
-app.engine("handlebars", exphbs({
-    defaultLayout: "main",
-    partialsDir: path.join(__dirname, "/views/layouts/partials")
- }));
+app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
 // Import routes and give the server access to them.
-require("./routes/routes.js")(app);
+require("./controllers/controller.js")(app);
 
-// handlebars rout to static files - css, img
-app.use(express.static('public'));
+// Set mongoose to leverage built in JavaScript ES6 Promises
+mongoose.Promise = Promise;
+
+// Connect to the Mongo DB
+mongoose.connect("mongodb://localhost/Mongo-Scraper2");
+// //mongoose.connect(MONGODB_URI);
+// // mongoose.connect("mongodb://_");
+
+// Show any mongoose errors
+mongoose.connection.on("error", function(error) {
+  console.log("Mongoose Error: ", error);
+});
+
+// Once logged in to the db through mongoose, log a success message
+mongoose.connection.once("open", function() {
+  console.log("Mongoose connection successful.");
+});
 
 // Initiate database interface and start our server so that it can begin listening to client requests.
 app.listen(PORT, function (err) {

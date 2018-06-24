@@ -13,11 +13,15 @@ var ArticleSchema = new Schema({
   },
   summary: {
     type: String,
-    required: true
+    default: "Summary unavailable."
   },
   link: {
     type: String,
     required: true
+  },
+  image: {
+    type: String,
+    default: "No available image."
   },
   saved: {
     type: Boolean,

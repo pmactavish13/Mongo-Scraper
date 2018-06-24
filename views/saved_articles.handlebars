@@ -1,0 +1,55 @@
+<div class="container-fluid">
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+        <a class="navbar-brand" href="#page-top">NYT scraper</a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+            aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            Menu
+            <i class="fa fa-bars"></i>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav text-uppercase ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">HOME</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/view_articles">VIEW ARTICLES</a>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" id="scrape">SCRAPE ARTICLES</button>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</div>
+
+
+<section container id="articles">
+    <div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+        {{#if articles}} {{#each articles}}
+        <div class="card bg-light border-dark mb-3" id="articleCard">
+            <div class="card-header border-dark">{{title}}</div>
+            <div class="card-body text-dark">
+                {{!--
+                <h5 class="card-title">Dark card title</h5> --}}
+                <a href={{link}} target="_blank">{{link}}</a>
+                <p class="card-text">{{summary}}</p>
+                <button class="btn btn-success save" data-id={{this._id}}>Save Article</button>
+                {{#if saved}}
+                <button class="btn btn-success note" data-id={{this._id}}>Add Note</button>
+                {{/if}}
+            </div>
+        </div>
+        {{/each}} {{else}}
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <h4>There are no new articles.</h4>
+            </div>
+        </div>
+        {{/if}}
+    </div>
+    <div class="col-md-1"></div>
+    </div>
+</section>
