@@ -88,6 +88,7 @@ body {
   }
 
 h1 {
+    
     font-size: 80px;
     /* padding-top: 10%; */
 } 
@@ -101,10 +102,55 @@ section {
     left:0;
     background-color: rgb(249, 249, 249, 0.3);
     width: 100%;
-    height: 100%;    
+    height: 100%;   
+}
+
+#noSavedArticles {
+    margin-top: 80px;;
 }
 
 #articleCard {
     margin-top: 10px;
     margin-bottom: -10px;
+};
+
+.save-article {
+    border: solid 1px green;
 }
+
+.addNote, .viewArticles {
+    border: solid 1px rgb(42, 42, 171)
+}
+
+.delete, .deleteNote {
+border: solid 1px rgb(167, 33, 33);
+}
+
+.bootbox {
+    display: block;
+    max-width: 60%;
+    max-height: 60%;
+    background-color: white;
+    margin-top: 90px;
+    border-radius: 3px;
+    border: solid 1px rgb(167, 33, 33);
+    margin: auto;
+}
+
+.modal-content {
+    border: none
+}
+
+.saveNote {
+    border: solid 1px green;
+    }
+textarea {
+    margin-bottom: 10px;
+}    
+
+hr {
+    border-bottom: solid 1px rgb(167, 33, 33);
+}
+
+
+ 
