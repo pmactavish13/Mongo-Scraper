@@ -123,7 +123,7 @@ $(document).ready(function () {
                     "<div class='container-fluid text-center'>",
                     "<h4 class='text-center'>Notes for Article: " + data.notesData.title + "</h4>",
                     "<hr></hr>",
-                    "<ul class='list-group noteContainer'>" + notesList + "</ul>",
+                    "<ul class='list-group noteContainer'>" + notesList.join("") + "</ul>",
                     "<div class='form-group'>",
                     "<textarea class='form-control' id='bodyinput' rows='4' placeholder='New Note'></textarea>",
                     "<button class='btn saveNote' data-id=" + data.notesData._id + ">SAVE NOTE</button>",
