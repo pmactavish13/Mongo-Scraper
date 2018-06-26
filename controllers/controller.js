@@ -4,6 +4,7 @@ var axios = require("axios");
 var cheerio = require("cheerio");
 var request = require("request");
 const logger = require('morgan');
+var bodyParser = require("body-parser");
 
 // Require all models
 var db = require("../models");
@@ -89,13 +90,11 @@ module.exports = function (app) {
 
     // route for view_articles
     app.get("/view_articles", function (req, res) {
-        db.Article.find({}).limit(20)
+        db.Article.find({saved:false}).limit(20)
             .then(function (DbArticles) {
                 res.render(("view_articles"), { articles: DbArticles })
-                    .catch(function (err) {
-                        // db.find error
-                        console.log(err);
-                    })
+            }).catch(function(err) {
+                console.error(err);
             })
     });
 
@@ -125,7 +124,7 @@ module.exports = function (app) {
     // Delete a saved article
     app.post("/delete_article/:id", function (req, res) {
         // Use the article id to find and update its saved boolean
-        db.Article.update({ "_id": req.params.id }, { "saved": false, "notes": [] })
+        db.Article.update({ "_id": req.params.id }, { "saved": false, "note": [] })
             .then(function (DbArticles) {
                 console.log(DbArticles)
                 res.render(("view_articles"), { articles: DbArticles })
@@ -154,20 +153,29 @@ module.exports = function (app) {
     });
 
     // POST route - create a new note
-    app.post('/save_note', function (req, res) {
-        var articleId = req.body._id;
-        var note = { body: req.body.noteText };
+    app.post("/save_note/:id", function (req, res) {
 
-        db.Note
-            .create(note)
-            .then(result => {
-                db.Article
-                    .findByIdAndUpdate(articleId, { $push: { notes: result._id } }, { new: true })//saving reference to note in corresponding article
-                    .then(data => res.json(result))
-                    .catch(err => res.json(err));
-            })
-            .catch(err => res.json(err));
-    });
+    // Create a new note and pass the req.body to the entry
+    db.Note.create({ body: req.body.body })
+      .then(function(dbNote) {
+        // If a Note was created successfully, find one Article with an `_id` equal to `req.params.id`. Update the Article to be associated with the new Note
+        // { new: true } tells the query that we want it to return the updated User -- it returns the original by default
+        // Since our mongoose query returns a promise, we can chain another `.then` which receives the result of the query
+        return db.Article.findOneAndUpdate({ _id: req.params.id }, { note: dbNote._id }, { new: true });
+      })
+      .then(function(dbArticle) {
+        // If we were able to successfully update an Article, send it back to the client
+        res.json(dbArticle);
+      })
+      .catch(function(err) {
+        // If an error occurred, send it to the client
+        res.json(err);
+      });
+  });
+
+
+   
+
 
     // Delete a note
     app.delete('/delete_note/:id', function (req, res) {
