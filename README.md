@@ -1,5 +1,7 @@
 # Mongo-Scraper
-App scrapes articles from the New York Times website.  
+App scrapes articles from the New York Times website.
+
+Deployed site: https://thawing-ocean-77577.herokuapp.com/
 
 Users click on a button to scrape articles.
 
