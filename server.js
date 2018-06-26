@@ -36,10 +36,16 @@ require("./controllers/controller.js")(app);
 // Set mongoose to leverage built in JavaScript ES6 Promises
 mongoose.Promise = Promise;
 
+// If deployed, use the deployed database. Otherwise use the local mongoHeadlines database
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://heroku_kl033f84:n6fvlc18cshg4e4ffqcp13nulm@ds117701.mlab.com:17701/heroku_kl033f84";
+
+// Set mongoose to leverage built in JavaScript ES6 Promises
 // Connect to the Mongo DB
-mongoose.connect("mongodb://localhost/Mongo-Scraper2");
-// //mongoose.connect(MONGODB_URI);
-// // mongoose.connect("mongodb://_");
+// mongoose.connect(MONGODB_URI);
+// // Connect to the Mongo DB
+// mongoose.connect("mongodb://localhost/Mongo-Scraper2");
+// mongoose.connect(MONGODB_URI);
+// mongoose.connect("mongodb://heroku_kl033f84:n6fvlc18cshg4e4ffqcp13nulm@ds117701.mlab.com:17701/heroku_kl033f84");
 
 // Show any mongoose errors
 mongoose.connection.on("error", function(error) {
