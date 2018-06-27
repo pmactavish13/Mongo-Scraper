@@ -4,14 +4,15 @@ $(document).ready(function () {
     $("#scrape").on("click", function () {
         $.ajax({
             method: "GET",
-            url: "/scrape",
-        }).done(function (data) {
-            var scrapeResult = [
-                "<h3 class='text-center'>Scrape Successful!</h3>",
-                "<h3 class='text-center'> Retrieved " + data.newArticleCount + " new articles!</h3>",
-                "<hr></hr>",
-                "<button class='btn viewArticles' id='viewArticles'>" + "VIEW ARTICLES</button>"
-            ].join("");
+            url: "/scrape"
+        }).then(function (data) {
+            var scrapeResult = 
+                `<h3 class='text-center'>Scrape Successful!</h3> 
+                <h3 class='text-center'> 
+                Retrieved ${data.newArticleCount} new articles!
+                </h3>
+                <hr></hr>
+                <button class='btn viewArticles' id='viewArticles'>VIEW ARTICLES</button>`;
             bootbox.dialog({
                 message: scrapeResult,
                 closeButton: true
@@ -30,7 +31,7 @@ $(document).ready(function () {
             success: function () {
                 window.location.href = "/view_articles";
             },
-        }).done(function (data) {
+        }).then(function (data) {
             return (data);
         })
     };
